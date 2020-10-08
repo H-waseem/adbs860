@@ -25,6 +25,7 @@ void draw()
   background(255);
   // Menu code below___________________________________________
   if (help == false && helpMode == false) {
+
     textSize(30);
     fill(0);
     text("Press 'h' for help", width/2 -120, 30);
@@ -45,18 +46,18 @@ void draw()
   if (help == true && helpMode == false) {
     fill(0, 100, 200);
     textSize(17);
-    text("Press 'a' for assisted aim", width/2 - 35, 17);
-    text("Press 'g' for assistance grid", width/2 - 35, 47);
-    text("Press 'm' for mode change", width/2 - 35, 77);
+    text("Press 'a' for assisted aim", width/2 + 15, 17);
+    text("Press 'g' for assistance grid", width/2 + 15, 47);
+    text("Press 'm' for mode change", width/2 + 15, 77);
     textSize(30);
-    text("Press Enter", 270, 30);
-    text("to start", 290, 70);
+    text("Press Enter", 300, 30);
+    text("to start", 320, 70);
   }
   if (help == false && helpMode == true) {
     textSize(20);
     fill(200, 0, 0);
-    text("Blitz: Shoot 5 targets as fast as possible", width/2 - 250, 20);
-    text("Quickdraw: Shoot 1 target as fast as possible", width/2 - 250, 50);
+    text("Blitz: Shoot 5 targets as fast as possible", width/2 - 200, 20);
+    text("Quickdraw: Shoot 1 target as fast as possible", width/2 - 200, 60);
   }
   textSize(30);
   fill(0, 0, 0);
@@ -66,17 +67,19 @@ void draw()
   text("Current mode:", 730, 20);
   text("Targets hit:", 830, 60);
   text(points, 950, 60);
-  crossHair();
+
 
   //Check what mode to run--------------------------------------------------
 
   if (mode == false) { //False is blitz mode
     maxPoints = 5;
     game();
+    crossHair();
   }
-  if (mode == true) { //True is 
+  if (mode == true) { //True is quickdraw
     maxPoints = 1;
     game();
+    crossHair();
   }
 }
 
@@ -92,8 +95,8 @@ int getNextY() {
 }
 
 void game() {
- 
-  for (int row=0; row<18; row = row+1) //Row counter
+
+  for (int row=0; row<20; row = row+1) //Row counter
   {
     for (int col=0; col<25; col = col+1) //Column counter
     {
@@ -114,14 +117,12 @@ void game() {
         fill(0, 0, 0, 15);
         ellipse(20 + col*40, 100 + row*40, 30, 30);
       }
-
-      if (!isTargetDown) {
-        target(targetX, targetY);
-      }
     }
   }
+    if (!isTargetDown) {
+    target(targetX, targetY);
+  }
 }
-
 
 //============================================================
 
@@ -130,7 +131,6 @@ void mouseClicked() {
     println("TARGET HIT!");
     isTargetDown = true;
     points = points + 1;
-    println(points);
     targetX = getNextX();
     targetY = getNextY();
     isTargetDown = false;
@@ -138,7 +138,7 @@ void mouseClicked() {
       sw.stop();
       isTargetDown = true;
     }
-  } else {
+  } else if (isTargetDown == false){
     println("MISS!");
   }
 } 
@@ -162,6 +162,7 @@ void keyPressed() {
   }
   if (key == 'H') {
     helpMode = !helpMode;
+    println("Mode help menu toggled");
   }
   if (key == ENTER) { // To start mode
     sw.start(); //start stop watch
